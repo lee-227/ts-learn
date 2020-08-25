@@ -1,3 +1,4 @@
+export {}
 /**
  * "strictPropertyInitialization": true / 启用类属性初始化的严格检查 /
  */

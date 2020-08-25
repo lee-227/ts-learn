@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * "strictPropertyInitialization": true / 启用类属性初始化的严格检查 /
  */

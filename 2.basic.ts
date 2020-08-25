@@ -1,3 +1,4 @@
+export {}
 let flag: boolean = true
 let age: number = 1
 let myName: string = 'lee'
