@@ -1,5 +1,66 @@
 export {};
 /**
+ * 类型推断
+ */
+// 1.从右到左
+let foo = 1;
+let str = "string";
+
+// 2.底部流出
+// 返回类型能被return语句推断
+function fn() {
+  return {
+    name: "lee",
+    age: 18,
+  };
+}
+let f = fn();
+
+// 3.从左向右
+// 函数参数类型，返回值类型也能通过赋值来推断
+type Sum = (a: number, b: number) => number;
+let sum: Sum = (a, b) => {
+  // a = "lee";
+  return a + b;
+};
+
+// 4.结构化
+const person = {
+  name: "lee",
+  age: 18,
+};
+let name2 = person.name;
+// name2 = 18
+
+// 5.解构
+let { age } = person;
+// age = 'lee'
+
+// 6.DefaultProps
+interface DefaultProps {
+  name?: string;
+  age?: number;
+}
+let defaultProps = {
+  name: "lee",
+  age: 18,
+};
+let props = {
+  ...defaultProps,
+  gender: "male",
+};
+type T = typeof props;
+
+// 7.小心使用返回值
+// 尽管 TypeScript 一般情况下能推断函数的返回值，但是它可能并不是你想要的
+function addOne(a: any) {
+  return a + 1;
+}
+function sum2(a: number, b: number) {
+  return a + addOne(b);
+}
+type Ret = ReturnType<typeof sum2>;
+/**
  * 交叉类型
  * 交叉类型(Intersection Types)是将多个类型合并为一个类型
  * 这让我们可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性
@@ -178,7 +239,7 @@ let condition2: Condition<Bird | Fish>; //condition2 = Water | Sky
 
 /**
  * 条件类型有一个特性,就是「分布式有条件类型」,
- * 但是分布式有条件类型是有前提的,条件类型里待检查的类型必须是naked type parameter
+ * 但是分布式有条件类型是有前提的,条件类型里待检查的类型必须是naked type parameter 裸类型
  */
 
 /**
@@ -193,16 +254,18 @@ type R1 = Filter<string | number | boolean, number>; // number
 /**
  * 编写一个工具类型将interface中函数类型的名称取出来
  */
-interface Person2 {
-  id: number;
-  name: string;
-  getName(): string;
-  getAge(): number;
+namespace h {
+  interface Person2 {
+    id: number;
+    name: string;
+    getName(): string;
+    getAge(): number;
+  }
+  type FunctionPropertyNames<T> = {
+    [K in keyof T]: T[K] extends Function ? K : never;
+  }[keyof T];
+  type R2 = FunctionPropertyNames<Person2>;
 }
-type FunctionPropertyNames<T> = {
-  [K in keyof T]: T[K] extends Function ? K : never;
-}[keyof T];
-type R2 = FunctionPropertyNames<Person2>;
 
 /**
  * 内置条件类型
@@ -248,4 +311,43 @@ namespace g {
   ) => infer R
     ? R
     : any;
+}
+
+//Parameters
+type Parameters<T> = T extends (...args: infer R) => any ? R : any;
+
+type f1 = Parameters<(a: number, b: string) => void>;
+type f2 = Parameters<() => void>;
+
+//InstanceType
+namespace t {
+  class Person {
+    name: string;
+    constructor(name: string) {
+      this.name = name;
+    }
+    getName(): string {
+      return this.name;
+    }
+  }
+  type Construct = new (...args: any[]) => any;
+  type ConstructorParameters<T extends Construct> = T extends new (
+    ...args: infer R
+  ) => any
+    ? R
+    : never;
+  type InstanceType<T extends Construct> = T extends new (
+    ...args: any[]
+  ) => infer R
+    ? R
+    : never;
+  type a = InstanceType<typeof Person>;
+  let p3: Person = {
+    name: "lee",
+    getName() {
+      return "lee";
+    },
+  };
+  type c = ConstructorParameters<typeof Person>;
+  let c: c = ["lee"];
 }

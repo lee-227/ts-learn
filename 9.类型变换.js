@@ -1,5 +1,49 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * 类型推断
+ */
+// 1.从右到左
+let foo = 1;
+let str = "string";
+// 2.底部流出
+// 返回类型能被return语句推断
+function fn() {
+    return {
+        name: "lee",
+        age: 18,
+    };
+}
+let f = fn();
+let sum = (a, b) => {
+    // a = "lee";
+    return a + b;
+};
+// 4.结构化
+const person = {
+    name: "lee",
+    age: 18,
+};
+let name2 = person.name;
+// name2 = 18
+// 5.解构
+let { age } = person;
+let defaultProps = {
+    name: "lee",
+    age: 18,
+};
+let props = {
+    ...defaultProps,
+    gender: "male",
+};
+// 7.小心使用返回值
+// 尽管 TypeScript 一般情况下能推断函数的返回值，但是它可能并不是你想要的
+function addOne(a) {
+    return a + 1;
+}
+function sum2(a, b) {
+    return a + addOne(b);
+}
 let p = {
     name: "lee",
     fly() { },
@@ -96,3 +140,22 @@ var g;
         age: 10,
     };
 })(g || (g = {}));
+//InstanceType
+var t;
+(function (t) {
+    class Person {
+        constructor(name) {
+            this.name = name;
+        }
+        getName() {
+            return this.name;
+        }
+    }
+    let p3 = {
+        name: "lee",
+        getName() {
+            return "lee";
+        },
+    };
+    let c = ["lee"];
+})(t || (t = {}));
