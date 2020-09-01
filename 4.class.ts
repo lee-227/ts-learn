@@ -1,16 +1,16 @@
-export {}
+export {};
 /**
  * "strictPropertyInitialization": true / 启用类属性初始化的严格检查 /
  */
 class Persron {
-  name!: string
+  name!: string;
   getName(): void {
-    console.log(this.name)
+    console.log(this.name);
   }
 }
-let p = new Persron()
-p.name = 'lee'
-p.getName()
+let p = new Persron();
+p.name = "lee";
+p.getName();
 
 /**
  * 存取器可以改变类中一个属性的读取和赋值行为
@@ -20,21 +20,21 @@ p.getName()
  *   3. 没有返回值
  */
 class User {
-  myName: string
+  myName: string;
   constructor(myName: string) {
-    this.myName = myName
+    this.myName = myName;
   }
   get name(): string {
-    return this.myName
+    return this.myName;
   }
   set name(val: string) {
-    this.myName = val
+    this.myName = val;
   }
 }
-let user = new User('lee')
-console.log(user.name)
-user.name = 'nb'
-console.log(user.name)
+let user = new User("lee");
+console.log(user.name);
+user.name = "nb";
+console.log(user.name);
 
 /**
  * 参数属性
@@ -51,9 +51,9 @@ class User2 {
  * 4. readonly实际上只是在编译阶段进行代码检查，而const则会在运行时检查
  */
 class Animal {
-  public readonly name: string
+  public readonly name: string;
   constructor(name: string) {
-    this.name = name
+    this.name = name;
   }
   changeName(name: string) {
     // this.name = name
@@ -67,31 +67,31 @@ class Animal {
  * super可以调用父类上的方法和属性
  */
 class Person {
-  name: string
-  age: number
+  name: string;
+  age: number;
   constructor(name: string, age: number) {
-    this.name = name
-    this.age = age
+    this.name = name;
+    this.age = age;
   }
   getName(): string {
-    return this.name
+    return this.name;
   }
   setName(val: string): void {
-    this.name = val
+    this.name = val;
   }
 }
 class Student extends Person {
-  no: number
+  no: number;
   constructor(name: string, age: number, no: number) {
-    super(name, age)
-    this.no = no
+    super(name, age);
+    this.no = no;
   }
   getNo(): number {
-    return this.no
+    return this.no;
   }
 }
-let s1 = new Student('lee', 18, 1)
-console.log(s1)
+let s1 = new Student("lee", 18, 1);
+console.log(s1);
 
 /**
  * 修饰符
@@ -101,18 +101,18 @@ console.log(s1)
  */
 
 class Father {
-  public name: string
-  protected age: number
-  private money: number
+  public name: string;
+  protected age: number;
+  private money: number;
   constructor(name: string, age: number, money: number) {
-    this.name = name
-    this.age = age
-    this.money = money
+    this.name = name;
+    this.age = age;
+    this.money = money;
   }
 }
 class Child extends Father {
   constructor(name: string, age: number, money: number) {
-    super(name, age, money)
+    super(name, age, money);
   }
   print() {
     // console.log(this.name, this.age, this.money)
@@ -123,76 +123,76 @@ class Child extends Father {
  * 静态属性 静态方法
  */
 class Father2 {
-  static className = 'Father2'
+  static className = "Father2";
   static getClassName() {
-    return Father2.className
+    return Father2.className;
   }
 }
-let f = new Father2()
+let f = new Father2();
 
 /**
  * 类装饰器，在类声明之前用来监视修改或替换定义
  */
 namespace a {
   function addNameEat(constructor: Function) {
-    constructor.prototype.name = 'lee'
+    constructor.prototype.name = "lee";
     constructor.prototype.eat = function () {
-      console.log('吃吃吃')
-    }
+      console.log("吃吃吃");
+    };
   }
   @addNameEat
   class A {
-    name!: string
-    eat!: Function
+    name!: string;
+    eat!: Function;
     constructor() {}
   }
-  let a = new A()
-  console.log(a.name)
-  a.eat()
+  let a = new A();
+  console.log(a.name);
+  a.eat();
 }
 namespace b {
   //装饰器工厂
   function addFactory(name: string): Function {
     return function addNameEat(constructor: Function) {
-      constructor.prototype.name = name
+      constructor.prototype.name = name;
       constructor.prototype.eat = function () {
-        console.log('吃吃吃')
-      }
-    }
+        console.log("吃吃吃");
+      };
+    };
   }
-  @addFactory('lee2')
+  @addFactory("lee2")
   class A {
-    name!: string
-    eat!: Function
+    name!: string;
+    eat!: Function;
     constructor() {}
   }
-  let a = new A()
-  console.log(a.name)
-  a.eat()
+  let a = new A();
+  console.log(a.name);
+  a.eat();
 }
 
 namespace c {
   //装饰器替换类 要求两个类结构一致
   function addFactory(constructor: Function) {
     return class B {
-      name: string
+      name: string;
       constructor() {
-        this.name = 'lee3'
+        this.name = "lee3";
       }
       eat() {
-        console.log('eat')
+        console.log("eat");
       }
-    }
+    };
   }
   @addFactory
   class A {
-    name!: string
-    eat!: Function
+    name!: string;
+    eat!: Function;
     constructor() {}
   }
-  let a = new A()
-  console.log(a.name)
-  a.eat()
+  let a = new A();
+  console.log(a.name);
+  a.eat();
 }
 
 /**
@@ -209,62 +209,62 @@ namespace c {
 namespace c {
   //装饰实例属性
   function upperCase(target: any, key: string) {
-    console.log('------', target, key)
-    let value = target[key]
+    console.log("------", target, key);
+    let value = target[key];
     const getter = function (): string {
-      return value
-    }
+      return value;
+    };
     const setter = function (val: string) {
-      value = val.toUpperCase()
-    }
+      value = val.toUpperCase();
+    };
     if (delete target[key]) {
       Object.defineProperty(target, key, {
         set: setter,
         get: getter,
         enumerable: true,
         configurable: true,
-      })
+      });
     }
   }
   //装饰实例方法
   function noEnum(target: any, key: string, descriptor: PropertyDescriptor) {
-    console.log('------', target, key, descriptor)
-    console.log(target.getName)
-    console.log(target.age)
-    descriptor.enumerable = false
+    console.log("------", target, key, descriptor);
+    console.log(target.getName);
+    console.log(target.age);
+    descriptor.enumerable = false;
   }
   //重写方法
   function toNumber(target: any, key: string, descriptor: PropertyDescriptor) {
-    console.log('------', target, key, descriptor)
+    console.log("------", target, key, descriptor);
 
-    let oldMethods = descriptor.value
+    let oldMethods = descriptor.value;
     descriptor.value = function (...args: any[]) {
-      args = args.map((item) => parseFloat(item))
-      return oldMethods.apply(this, args)
-    }
+      args = args.map((item) => parseFloat(item));
+      return oldMethods.apply(this, args);
+    };
   }
   class C {
     @upperCase
-    name: string = 'lee'
-    public static age: number = 18
+    name: string = "lee";
+    public static age: number = 18;
     constructor() {}
     @noEnum
     getName() {
-      console.log(this.name)
+      console.log(this.name);
     }
     @toNumber
     sum(...args: any[]) {
-      return args.reduce((accu: number, cur: number) => accu + cur, 0)
+      return args.reduce((accu: number, cur: number) => accu + cur, 0);
     }
   }
-  let c = new C()
-  console.log(c.name)
+  let c = new C();
+  console.log(c.name);
   for (let arrt in c) {
-    console.log(arrt)
+    console.log(arrt);
   }
-  c.name = 'lee1'
-  c.getName()
-  console.log(c.sum('1', '2', '3'))
+  c.name = "lee1";
+  c.getName();
+  console.log(c.sum("1", "2", "3"));
 }
 
 /**
@@ -276,19 +276,19 @@ namespace c {
  */
 namespace d {
   interface Person {
-    age: number
+    age: number;
   }
   function addAge(target: any, methodName: string, index: number) {
-    console.log(target, methodName, index)
-    target.age = 10
+    console.log(target, methodName, index);
+    target.age = 10;
   }
   class Person {
     login(username: string, @addAge password: string) {
-      console.log(this.age, username, password)
+      console.log(this.age, username, password);
     }
   }
-  let c = new Person()
-  c.login('lee', 'password')
+  let c = new Person();
+  c.login("lee", "password");
 }
 
 /**
@@ -301,42 +301,42 @@ namespace d {
 namespace e {
   function class1Descriptor() {
     return function (target: Function) {
-      console.log('类装饰器1')
-    }
+      console.log("类装饰器1");
+    };
   }
   function class2Descriptor() {
     return function (target: Function) {
-      console.log('类装饰器2')
-    }
+      console.log("类装饰器2");
+    };
   }
   function propertyDescriptor(name: string) {
     return function (target: any, key: string) {
-      console.log(name + '属性装饰器')
-    }
+      console.log(name + "属性装饰器");
+    };
   }
   function methodDescriptor() {
     return function (target: any, key: string, descriptor: PropertyDescriptor) {
-      console.log('方法装饰器')
-    }
+      console.log("方法装饰器");
+    };
   }
   function argDescriptor(name: string) {
     return function (target: any, methodName: string, index: number) {
-      console.log(name + '参数装饰器')
-    }
+      console.log(name + "参数装饰器");
+    };
   }
   @class1Descriptor()
   @class2Descriptor()
   class Person {
-    @propertyDescriptor('name')
-    name: string = 'lee'
-    @propertyDescriptor('age')
-    age: number = 18
+    @propertyDescriptor("name")
+    name: string = "lee";
+    @propertyDescriptor("age")
+    age: number = 18;
     @methodDescriptor()
     say(
-      @argDescriptor('name') name: string,
-      @argDescriptor('age') age: number
+      @argDescriptor("name") name: string,
+      @argDescriptor("age") age: number
     ) {
-      console.log('hello')
+      console.log("hello");
     }
   }
 }
@@ -350,16 +350,16 @@ namespace e {
 
 namespace e {
   abstract class Animal {
-    name!: string
-    abstract say(): void
+    name!: string;
+    abstract say(): void;
   }
   class Miao extends Animal {
     say() {
-      console.log('我是猫')
+      console.log("我是猫");
     }
   }
-  let m = new Miao()
-  m.say()
+  let m = new Miao();
+  m.say();
 }
 
 /**
@@ -373,30 +373,30 @@ namespace e {
 
 namespace g {
   abstract class Animal {
-    name: string
+    name: string;
     constructor(name: string) {
-      this.name = name
+      this.name = name;
     }
-    abstract speak(): void
+    abstract speak(): void;
   }
   interface Flying {
-    fly(): void
+    fly(): void;
   }
   class Duck extends Animal implements Flying {
     constructor(name: string) {
-      super(name)
+      super(name);
     }
     speak() {
-      console.log('我是' + this.name)
+      console.log("我是" + this.name);
     }
     fly() {
-      console.log('我会飞')
+      console.log("我会飞");
     }
   }
-  let d = new Duck('duck')
-  console.log(d.name)
-  d.speak()
-  d.fly()
+  let d = new Duck("duck");
+  console.log(d.name);
+  d.speak();
+  d.fly();
 }
 
 /**
@@ -407,22 +407,22 @@ namespace g {
  */
 namespace h {
   abstract class Animal {
-    abstract speak(): void
+    abstract speak(): void;
   }
   class Dog extends Animal {
     speak() {
-      console.log('小狗汪汪汪')
+      console.log("小狗汪汪汪");
     }
   }
   class Cat extends Animal {
     speak() {
-      console.log('小猫喵喵喵')
+      console.log("小猫喵喵喵");
     }
   }
-  let dog = new Dog()
-  let cat = new Cat()
-  dog.speak()
-  cat.speak()
+  let dog = new Dog();
+  let cat = new Cat();
+  dog.speak();
+  cat.speak();
 }
 
 /**
@@ -433,28 +433,28 @@ namespace h {
 namespace j {
   class Animal {
     speak(word: string): string {
-      return '动作叫:' + word
+      return "动作叫:" + word;
     }
   }
   class Cat extends Animal {
     speak(word: string): string {
-      return '猫叫:' + word
+      return "猫叫:" + word;
     }
   }
-  let cat = new Cat()
-  console.log(cat.speak('hello'))
+  let cat = new Cat();
+  console.log(cat.speak("hello"));
   //--------------------------------------------
-  function double(val: number): number
-  function double(val: string): string
+  function double(val: number): number;
+  function double(val: string): string;
   function double(val: any): any {
-    if (typeof val == 'number') {
-      return val * 2
+    if (typeof val == "number") {
+      return val * 2;
     }
-    return val + val
+    return val + val;
   }
 
-  let r = double(1)
-  console.log(r)
+  let r = double(1);
+  console.log(r);
 }
 
 /**

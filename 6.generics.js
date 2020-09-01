@@ -35,6 +35,12 @@ arr.add(2).add(2);
 function factory(type) {
     return new type(1);
 }
+class A {
+    constructor(age) {
+        this.age = age;
+    }
+}
+factory(A);
 let add = (a, b) => {
     return a;
 };
@@ -74,4 +80,4 @@ let c3 = ["1", "2"];
  * 接口创建了一个新的名字，它可以在其他任意地方被调用。而类型别名并不创建新的名字，例如报错信息就不会使用别名
  * 类型别名不能被 extends和 implements,这时我们应该尽量使用接口代替类型别名
  * 当我们需要使用联合类型或者元组类型的时候，类型别名会更合适
- */ 
+ */

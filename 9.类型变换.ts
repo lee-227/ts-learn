@@ -351,3 +351,267 @@ namespace t {
   type c = ConstructorParameters<typeof Person>;
   let c: c = ["lee"];
 }
+
+/**
+ * 内置工具类型
+ * TS 中内置了一些工具类型来帮助我们更好地使用类型系统
+ */
+
+/**
+ * partial将传入的属性由非可选变为可选
+ */
+namespace a {
+  type Partial<T> = {
+    [p in keyof T]?: T[p];
+  };
+  interface A {
+    a1: string;
+    a2: number;
+    a3: boolean;
+  }
+  type pa = Partial<A>;
+}
+
+/**
+ * 类型递归
+ */
+namespace v {
+  interface Company {
+    id: number;
+    name: string;
+  }
+  interface Person {
+    id: number;
+    name: string;
+    compant: Company;
+  }
+  type DeepPartial<T> = {
+    [p in keyof T]?: T[p] extends object ? DeepPartial<T[p]> : T[p];
+  };
+  type P2 = DeepPartial<Person>;
+}
+
+/**
+ * required
+ * 将传入的属性由可选项变为必选项
+ */
+namespace r {
+  interface Person {
+    name?: string;
+  }
+  type Required<T> = {
+    [p in keyof T]-?: T[p];
+  };
+  type P2 = Required<Person>;
+}
+
+/**
+ * Readonly 通过为传入的属性每一项都加上 readonly 修饰符来实现。
+ */
+namespace t {
+  interface Person {
+    name: string;
+    age: number;
+    gender?: "male" | "female";
+  }
+  type Readonly<T> = {
+    readonly [p in keyof T]: T[p];
+  };
+  type Pw = Readonly<Person>;
+}
+
+/**
+ * Pick从传入的属性中摘取某一项返回
+ */
+namespace q {
+  interface Animal {
+    name: string;
+    age: number;
+    gender: number;
+  }
+  type Pick<T, K extends keyof T> = {
+    [p in K]: T[p];
+  };
+  function pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
+    const result: Pick<T, K> = {} as Pick<T, K>;
+    keys.map((key) => {
+      result[key] = obj[key];
+    });
+    return result;
+  }
+  let animal: Animal = {
+    name: "miao",
+    age: 18,
+    gender: 1,
+  };
+  let a = pick<Animal, "age" | "name">(animal, ["age", "name"]);
+  type P5 = Pick<Animal, "age" | "name">;
+}
+
+/**
+ * Record 是 TypeScript 的一个高级类型
+ * 他会将一个类型的所有属性值都映射到另一个类型上并创造一个新的类型
+ */
+namespace h {
+  type Record<K extends keyof any, T> = {
+    [p in K]: T;
+  };
+  type point = "x" | "y";
+  type PointList = Record<point, { name: string }>;
+
+  function maoObject<K extends keyof any, T, U>(
+    obj: Record<K, T>,
+    map: (x: T) => U
+  ): Record<K, U> {
+    let result: any = {};
+    for (let key in obj) {
+      result[key] = map(obj[key]);
+    }
+    return result;
+  }
+  let name = { 1: "hello", 2: "world" };
+  let map = (x: string) => x.length;
+  let o = maoObject<string, string, number>(obj, map);
+}
+
+/**
+ * Proxy
+ */
+type Proxy<T> = {
+  get(): T;
+  set(value: T): void;
+};
+type Proxify<T> = {
+  [p in keyof T]: Proxy<T[p]>;
+};
+function proxify<T>(obj: T): Proxify<T> {
+  let result = {} as Proxify<T>;
+  for (let key in obj) {
+    result[key] = {
+      get() {
+        return obj[key];
+      },
+      set(val) {
+        obj[key] = val;
+      },
+    };
+  }
+  return result;
+}
+let props2 = {
+  name: "zhufeng",
+  age: 10,
+};
+let proxyProps = proxify(props2);
+console.log(proxyProps);
+
+function unProxify<T>(t: Proxify<T>): T {
+  let result = {} as T;
+  for (const k in t) {
+    result[k] = t[k].get();
+  }
+  return result;
+}
+
+let originProps = unProxify(proxyProps);
+console.log(originProps);
+
+/**
+ * SetDifference same as Exclude
+ */
+type SetDifference<A, B> = A extends B ? never : A;
+type a = SetDifference<"1" | "2" | "3", "2" | "3" | "4">;
+
+/**
+ * Omit
+ * Exclude 的作用是从 T 中排除出可分配给 U的元素..
+ * Omit<T, K>的作用是忽略T中的某些属性
+ * Omit = Exclude + Pick
+ */
+namespace y {
+  type Omit<T, K extends keyof any> = Pick<T, SetDifference<keyof T, K>>;
+  type Props = { name: string; age: number; visible: boolean };
+  type Props2 = Omit<Props, "age">;
+}
+
+/**
+ * Diff
+ */
+namespace u {
+  type Diff<T extends object, U extends object> = Pick<
+    T,
+    SetDifference<keyof T, keyof U>
+  >;
+  type Props = { name: string; age: number; visible: boolean };
+  type DefaultProps = { age: number };
+  type DiffProps = Diff<Props, DefaultProps>;
+}
+
+/**
+ * Intersection
+ */
+namespace i {
+  type Intersection<T extends object, U extends object> = Pick<
+    T,
+    Extract<keyof T, keyof U> & Extract<keyof U, keyof T>
+  >;
+  type Props = { name: string; age: number; visible: boolean };
+  type DefaultProps = { age: number };
+  type DuplicateProps = Intersection<Props, DefaultProps>;
+}
+
+/**
+ * Overwrite<T, U>顾名思义,是用U的属性覆盖T的相同属性.
+ */
+namespace p {
+  type Intersection<T extends object, U extends object> = Pick<
+    T,
+    Extract<keyof T, keyof U> & Extract<keyof U, keyof T>
+  >;
+  type Overwrite<
+    T extends object,
+    U extends object,
+    I = Diff<T, U> & Intersection<U, T>
+  > = Pick<I, keyof I>;
+
+  type Props = { name: string; age: number; visible: boolean };
+  type NewProps = { age: string; other: string };
+
+  // Expect: { name: string; age: string; visible: boolean; }
+  type ReplacedProps = Overwrite<Props, NewProps>;
+}
+
+/**
+ * Merge.
+ * Merge<O1, O2>的作用是将两个对象的属性合并:
+ */
+namespace o {
+  type O1 = {
+    id: number;
+    name: string;
+  };
+
+  type O2 = {
+    id: number;
+    age: number;
+  };
+
+  //Compute的作用是将交叉类型合并
+  type Compute<A extends any> = A extends Function
+    ? A
+    : { [K in keyof A]: A[K] };
+
+  type R1 = Compute<{ x: "x" } & { y: "y" }>;
+  type Merge<O1 extends object, O2 extends object> = Compute<
+    O1 & Omit<O2, keyof O1>
+  >;
+
+  type R2 = Merge<O1, O2>;
+}
+/**
+ * Mutable 
+ * 将 T 的所有属性的 readonly 移除
+ */
+type Mutable<T> = {
+  -readonly [P in keyof T]: T[P]
+}

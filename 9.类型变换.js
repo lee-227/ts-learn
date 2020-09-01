@@ -159,3 +159,68 @@ var t;
     };
     let c = ["lee"];
 })(t || (t = {}));
+/**
+ * Pick从传入的属性中摘取某一项返回
+ */
+var q;
+(function (q) {
+    function pick(obj, keys) {
+        const result = {};
+        keys.map((key) => {
+            result[key] = obj[key];
+        });
+        return result;
+    }
+    let animal = {
+        name: "miao",
+        age: 18,
+        gender: 1,
+    };
+    let a = pick(animal, ["age", "name"]);
+})(q || (q = {}));
+/**
+ * Record 是 TypeScript 的一个高级类型
+ * 他会将一个类型的所有属性值都映射到另一个类型上并创造一个新的类型
+ */
+var h;
+(function (h) {
+    function maoObject(obj, map) {
+        let result = {};
+        for (let key in obj) {
+            result[key] = map(obj[key]);
+        }
+        return result;
+    }
+    let name = { 1: "hello", 2: "world" };
+    let map = (x) => x.length;
+    let o = maoObject(obj, map);
+})(h || (h = {}));
+function proxify(obj) {
+    let result = {};
+    for (let key in obj) {
+        result[key] = {
+            get() {
+                return obj[key];
+            },
+            set(val) {
+                obj[key] = val;
+            },
+        };
+    }
+    return result;
+}
+let props2 = {
+    name: "zhufeng",
+    age: 10,
+};
+let proxyProps = proxify(props2);
+console.log(proxyProps);
+function unProxify(t) {
+    let result = {};
+    for (const k in t) {
+        result[k] = t[k].get();
+    }
+    return result;
+}
+let originProps = unProxify(proxyProps);
+console.log(originProps);

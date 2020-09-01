@@ -1,4 +1,4 @@
-export{}
+export {};
 /**
  * 泛型（Generics）是指在定义函数、接口或类的时候，不预先指定具体的类型，而在使用的时候再指定类型的一种特性
  * 泛型T作用域只限于函数内部使用
@@ -35,6 +35,10 @@ function factory<T>(type: { new (age: number): T }): T {
   return new type(1);
 }
 
+class A {
+  constructor(public age: number) {}
+}
+factory<void>(A)
 /**
  * 泛型接口
  * 用来约束函数

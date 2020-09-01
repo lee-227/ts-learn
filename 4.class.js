@@ -18,7 +18,7 @@ class Persron {
     }
 }
 let p = new Persron();
-p.name = 'lee';
+p.name = "lee";
 p.getName();
 /**
  * 存取器可以改变类中一个属性的读取和赋值行为
@@ -38,9 +38,9 @@ class User {
         this.myName = val;
     }
 }
-let user = new User('lee');
+let user = new User("lee");
 console.log(user.name);
-user.name = 'nb';
+user.name = "nb";
 console.log(user.name);
 /**
  * 参数属性
@@ -92,7 +92,7 @@ class Student extends Person {
         return this.no;
     }
 }
-let s1 = new Student('lee', 18, 1);
+let s1 = new Student("lee", 18, 1);
 console.log(s1);
 /**
  * 修饰符
@@ -123,7 +123,7 @@ class Father2 {
         return Father2.className;
     }
 }
-Father2.className = 'Father2';
+Father2.className = "Father2";
 let f = new Father2();
 /**
  * 类装饰器，在类声明之前用来监视修改或替换定义
@@ -131,9 +131,9 @@ let f = new Father2();
 var a;
 (function (a_1) {
     function addNameEat(constructor) {
-        constructor.prototype.name = 'lee';
+        constructor.prototype.name = "lee";
         constructor.prototype.eat = function () {
-            console.log('吃吃吃');
+            console.log("吃吃吃");
         };
     }
     let A = class A {
@@ -153,7 +153,7 @@ var b;
         return function addNameEat(constructor) {
             constructor.prototype.name = name;
             constructor.prototype.eat = function () {
-                console.log('吃吃吃');
+                console.log("吃吃吃");
             };
         };
     }
@@ -161,7 +161,7 @@ var b;
         constructor() { }
     };
     A = __decorate([
-        addFactory('lee2')
+        addFactory("lee2")
     ], A);
     let a = new A();
     console.log(a.name);
@@ -173,10 +173,10 @@ var c;
     function addFactory(constructor) {
         return class B {
             constructor() {
-                this.name = 'lee3';
+                this.name = "lee3";
             }
             eat() {
-                console.log('eat');
+                console.log("eat");
             }
         };
     }
@@ -204,7 +204,7 @@ var c;
 (function (c_1) {
     //装饰实例属性
     function upperCase(target, key) {
-        console.log('------', target, key);
+        console.log("------", target, key);
         let value = target[key];
         const getter = function () {
             return value;
@@ -223,14 +223,14 @@ var c;
     }
     //装饰实例方法
     function noEnum(target, key, descriptor) {
-        console.log('------', target, key, descriptor);
+        console.log("------", target, key, descriptor);
         console.log(target.getName);
         console.log(target.age);
         descriptor.enumerable = false;
     }
     //重写方法
     function toNumber(target, key, descriptor) {
-        console.log('------', target, key, descriptor);
+        console.log("------", target, key, descriptor);
         let oldMethods = descriptor.value;
         descriptor.value = function (...args) {
             args = args.map((item) => parseFloat(item));
@@ -239,7 +239,7 @@ var c;
     }
     class C {
         constructor() {
-            this.name = 'lee';
+            this.name = "lee";
         }
         getName() {
             console.log(this.name);
@@ -263,9 +263,9 @@ var c;
     for (let arrt in c) {
         console.log(arrt);
     }
-    c.name = 'lee1';
+    c.name = "lee1";
     c.getName();
-    console.log(c.sum('1', '2', '3'));
+    console.log(c.sum("1", "2", "3"));
 })(c || (c = {}));
 /**
  * 参数装饰器
@@ -289,7 +289,7 @@ var d;
         __param(1, addAge)
     ], Person.prototype, "login", null);
     let c = new Person();
-    c.login('lee', 'password');
+    c.login("lee", "password");
 })(d || (d = {}));
 /**
  * 装饰器的执行顺序
@@ -302,48 +302,48 @@ var e;
 (function (e) {
     function class1Descriptor() {
         return function (target) {
-            console.log('类装饰器1');
+            console.log("类装饰器1");
         };
     }
     function class2Descriptor() {
         return function (target) {
-            console.log('类装饰器2');
+            console.log("类装饰器2");
         };
     }
     function propertyDescriptor(name) {
         return function (target, key) {
-            console.log(name + '属性装饰器');
+            console.log(name + "属性装饰器");
         };
     }
     function methodDescriptor() {
         return function (target, key, descriptor) {
-            console.log('方法装饰器');
+            console.log("方法装饰器");
         };
     }
     function argDescriptor(name) {
         return function (target, methodName, index) {
-            console.log(name + '参数装饰器');
+            console.log(name + "参数装饰器");
         };
     }
     let Person = class Person {
         constructor() {
-            this.name = 'lee';
+            this.name = "lee";
             this.age = 18;
         }
         say(name, age) {
-            console.log('hello');
+            console.log("hello");
         }
     };
     __decorate([
-        propertyDescriptor('name')
+        propertyDescriptor("name")
     ], Person.prototype, "name", void 0);
     __decorate([
-        propertyDescriptor('age')
+        propertyDescriptor("age")
     ], Person.prototype, "age", void 0);
     __decorate([
         methodDescriptor(),
-        __param(0, argDescriptor('name')),
-        __param(1, argDescriptor('age'))
+        __param(0, argDescriptor("name")),
+        __param(1, argDescriptor("age"))
     ], Person.prototype, "say", null);
     Person = __decorate([
         class1Descriptor(),
@@ -361,7 +361,7 @@ var e;
     }
     class Miao extends Animal {
         say() {
-            console.log('我是猫');
+            console.log("我是猫");
         }
     }
     let m = new Miao();
@@ -387,13 +387,13 @@ var g;
             super(name);
         }
         speak() {
-            console.log('我是' + this.name);
+            console.log("我是" + this.name);
         }
         fly() {
-            console.log('我会飞');
+            console.log("我会飞");
         }
     }
-    let d = new Duck('duck');
+    let d = new Duck("duck");
     console.log(d.name);
     d.speak();
     d.fly();
@@ -410,12 +410,12 @@ var h;
     }
     class Dog extends Animal {
         speak() {
-            console.log('小狗汪汪汪');
+            console.log("小狗汪汪汪");
         }
     }
     class Cat extends Animal {
         speak() {
-            console.log('小猫喵喵喵');
+            console.log("小猫喵喵喵");
         }
     }
     let dog = new Dog();
@@ -432,18 +432,18 @@ var j;
 (function (j) {
     class Animal {
         speak(word) {
-            return '动作叫:' + word;
+            return "动作叫:" + word;
         }
     }
     class Cat extends Animal {
         speak(word) {
-            return '猫叫:' + word;
+            return "猫叫:" + word;
         }
     }
     let cat = new Cat();
-    console.log(cat.speak('hello'));
+    console.log(cat.speak("hello"));
     function double(val) {
-        if (typeof val == 'number') {
+        if (typeof val == "number") {
             return val * 2;
         }
         return val + val;
@@ -455,4 +455,4 @@ var j;
  * 继承  多态
  * 1. 继承(Inheritance)子类继承父类，子类除了拥有父类的所有特性外，还有一些更具体的特性
  * 2. 多态(Polymorphism)由继承而产生了相关的不同的类，对同一个方法可以有不同的行为
- */ 
+ */
